@@ -9,11 +9,16 @@ node_js:
 services:
   - docker
 
-install:
-  - npm install -g dockerlint
+jobs:
+  include:
+    - stage: lint
+      install:
+        - npm install -g dockerlint
+      script:
+        - dockerlint tideways-daemon/Dockerfile
+        - dockerlint tideways-proxy/Dockerfile
 
-script:
-  - dockerlint tideways-daemon/Dockerfile
-  - docker build tideways-daemon
-  - dockerlint tideways-proxy/Dockerfile
-  - docker build tideways-proxy
+    - stage: build
+      script:
+        - docker build tideways-daemon
+        - docker build tideways-proxy
