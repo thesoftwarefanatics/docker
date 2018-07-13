@@ -1,0 +1,19 @@
+---
+sudo: required
+
+language: node_js
+
+node_js:
+  - "7"
+
+services:
+  - docker
+
+install:
+  - npm install -g dockerlint
+
+script:
+  - dockerlint tideways-daemon/Dockerfile
+  - docker build tideways-daemon
+  - dockerlint tideways-proxy/Dockerfile
+  - docker build tideways-proxy
